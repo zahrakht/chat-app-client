@@ -1,6 +1,7 @@
 import React from "react";
+import Router from "./pages/Route";
 function App() {
-    return <div>App</div>;
+    return <Router />;
 }
 
 export default App;
