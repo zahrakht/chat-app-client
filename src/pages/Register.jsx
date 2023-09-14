@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { registerRoute } from "../utils/APIRoutes";
+import axios from "axios";
 const Register = (props) => {
+    const navigate = useNavigate();
     const [values, setValues] = useState({
         username: "",
         email: "",
@@ -18,9 +21,26 @@ const Register = (props) => {
         draggable: true,
         theme: "light",
     };
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        handleValidation();
+        if (handleValidation()) {
+            const { username, email, password } = values;
+            const { data } = await axios.post(registerRoute, {
+                username,
+                email,
+                password,
+            });
+            if (data.status === false) {
+                toast.error(data.msg, toastOptions);
+            } else if (data.status === true) {
+                localStorage.setItem(
+                    //TODO:add jwt
+                    "chat-app-user",
+                    JSON.stringify(data.user)
+                );
+                navigate("/");
+            }
+        }
     };
     const handleChange = (event) => {
         setValues({ ...values, [event.target.name]: event.target.value });
