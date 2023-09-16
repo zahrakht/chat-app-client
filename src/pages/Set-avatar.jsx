@@ -22,9 +22,29 @@ const SetAvatar = (props) => {
         draggable: true,
         theme: "light",
     };
-    const setProfilePicture = () => {
+    const setProfilePicture = async () => {
         if (selectedAvatar === undefined) {
             toast.error("Please select an avatar", toastOptions);
+        } else {
+            const user = await JSON.parse(
+                localStorage.getItem("chat-app-user")
+            );
+            const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
+                image: avatars[selectedAvatar],
+            });
+            console.log(data);
+            if (!data.isSet) {
+                console.log(data.isSet);
+                toast.error(
+                    "Error setting avatar, please try again",
+                    toastOptions
+                );
+            } else if (data.isSet) {
+                user.isAvatarImageSet = true;
+                user.image = data.avatarImage;
+                localStorage.setItem("chat-app-user", JSON.stringify(user));
+                navigate("/");
+            }
         }
     };
     useEffect(() => {
@@ -46,7 +66,12 @@ const SetAvatar = (props) => {
         };
         fetchAvatars();
     }, []);
-
+    useEffect(() => {
+        if (!localStorage.getItem("chat-app-user")) {
+            navigate("/login");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <>
             {isLoading ? (
