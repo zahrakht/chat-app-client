@@ -56,6 +56,7 @@ const Login = (props) => {
         if (localStorage.getItem("chat-app-user")) {
             navigate("/");
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <>
