@@ -32,16 +32,14 @@ const SetAvatar = (props) => {
             const { data } = await axios.post(`${setAvatarRoute}/${user._id}`, {
                 image: avatars[selectedAvatar],
             });
-            console.log(data);
             if (!data.isSet) {
-                console.log(data.isSet);
                 toast.error(
                     "Error setting avatar, please try again",
                     toastOptions
                 );
             } else if (data.isSet) {
                 user.isAvatarImageSet = true;
-                user.image = data.avatarImage;
+                user.avatarImage = data.image;
                 localStorage.setItem("chat-app-user", JSON.stringify(user));
                 navigate("/");
             }
@@ -61,7 +59,6 @@ const SetAvatar = (props) => {
                 data.push(buffer.toString("base64"));
             }
             setAvatars(data);
-            console.log(data);
             setIsLoading(false);
         };
         fetchAvatars();
