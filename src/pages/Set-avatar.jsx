@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setAvatarRoute } from "../utils/APIRoutes";
 import axios from "axios";
 import { Buffer } from "buffer";
-import ShowAvatars from "../components/ShowAvatars";
+
 import loader from "../assets/images/loader.gif";
 
 const SetAvatar = (props) => {
@@ -38,8 +38,6 @@ const SetAvatar = (props) => {
                     toastOptions
                 );
             } else if (data.isSet) {
-                user.isAvatarImageSet = true;
-                user.avatarImage = data.image;
                 localStorage.setItem("chat-app-user", JSON.stringify(user));
                 navigate("/");
             }

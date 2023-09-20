@@ -4,17 +4,20 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { getUsersRoute } from "../utils/APIRoutes";
 import Contacts from "../components/Contacts";
-import Welcome from "./Welcome";
+import Welcome from "../components/Welcome";
+import ChatContainer from "../components/Chat-Container";
 const Chat = (props) => {
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState(undefined);
     const [contacts, setContacts] = useState([]);
     const [currentChat, setCurrentChat] = useState(undefined);
+    const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         const user = localStorage.getItem("chat-app-user");
         const fetchUser = async () => {
             setCurrentUser(await JSON.parse(user));
+            setIsLoaded(true);
         };
         if (!user) {
             navigate("/login");
@@ -32,7 +35,7 @@ const Chat = (props) => {
             }
         };
         if (currentUser) {
-            if (currentUser.isAvatarImageSet) {
+            if (currentUser.isAvatarSet) {
                 getAllUSers(currentUser._id);
             } else {
                 navigate("/set-avatar");
@@ -50,7 +53,11 @@ const Chat = (props) => {
                     currentUser={currentUser}
                     handleChatChange={handleChatChange}
                 />
-                <Welcome currentUser={currentUser} />
+                {isLoaded && currentChat ? (
+                    <ChatContainer currentChat={currentChat} />
+                ) : (
+                    <Welcome currentUser={currentUser} />
+                )}
             </div>
         </Container>
     );

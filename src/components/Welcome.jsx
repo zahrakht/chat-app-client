@@ -3,13 +3,17 @@ import styled from "styled-components";
 import robot from "../assets/images/hi.gif";
 const Welcome = ({ currentUser }) => {
     return (
-        <Container>
-            <img src={robot} alt="Robot" />
-            <h1>
-                Welcome, {currentUser && <span>{currentUser.username}!</span>}
-            </h1>
-            <h3>Please select a chat to start messaging </h3>
-        </Container>
+        <>
+            {currentUser && (
+                <Container>
+                    <img src={robot} alt="Robot" />
+                    <h1>
+                        Welcome, <span>{currentUser.username}!</span>
+                    </h1>
+                    <h3>Please select a chat to start messaging </h3>
+                </Container>
+            )}
+        </>
     );
 };
 
