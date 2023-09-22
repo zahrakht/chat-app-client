@@ -54,7 +54,10 @@ const Chat = (props) => {
                     handleChatChange={handleChatChange}
                 />
                 {isLoaded && currentChat ? (
-                    <ChatContainer currentChat={currentChat} />
+                    <ChatContainer
+                        currentChat={currentChat}
+                        currentUser={currentUser}
+                    />
                 ) : (
                     <Welcome currentUser={currentUser} />
                 )}

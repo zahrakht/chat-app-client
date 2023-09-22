@@ -58,8 +58,8 @@ const Container = styled.div`
     grid-template-columns: 5% 95%;
     align-items: center;
     background-color: #080420;
-    padding: 0 2rem;
-    padding-bottom: 0.3rem;
+    padding: 0 2rem 2rem;
+    /* padding-bottom: 0.3rem; */
     .button-container {
         display: flex;
         align-items: center;
@@ -93,7 +93,7 @@ const Container = styled.div`
         background-color: #ffffff34;
         input {
             width: 90%;
-            height: 60%;
+            height: 100%;
             background-color: transparent;
             color: white;
             border: none;
