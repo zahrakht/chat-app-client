@@ -121,7 +121,7 @@ const Container = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 0 2rem;
+        padding: 2rem 2rem 0;
         .user-details {
             display: flex;
             align-items: center;
