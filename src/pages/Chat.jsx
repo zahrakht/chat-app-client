@@ -1,18 +1,25 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { getUsersRoute } from "../utils/APIRoutes";
+import { getUsersRoute, host } from "../utils/APIRoutes";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
 import ChatContainer from "../components/Chat-Container";
+import { io } from "socket.io-client";
 const Chat = (props) => {
     const navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState(undefined);
     const [contacts, setContacts] = useState([]);
     const [currentChat, setCurrentChat] = useState(undefined);
     const [isLoaded, setIsLoaded] = useState(false);
-
+    const socket = useRef();
+    useEffect(() => {
+        if (currentUser) {
+            socket.current = io(host);
+            socket.current.emit("add-user", currentUser._id);
+        }
+    }, [currentUser]);
     useEffect(() => {
         const user = localStorage.getItem("chat-app-user");
         const fetchUser = async () => {
@@ -57,6 +64,7 @@ const Chat = (props) => {
                     <ChatContainer
                         currentChat={currentChat}
                         currentUser={currentUser}
+                        socket={socket}
                     />
                 ) : (
                     <Welcome currentUser={currentUser} />
